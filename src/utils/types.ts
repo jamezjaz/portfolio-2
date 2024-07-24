@@ -10,3 +10,9 @@ export interface HomePageData {
   heroImage?: string;
   techStacks: TechStacks[];
 };
+
+export interface AboutPageData {
+  bio: string;
+  bioImage: string;
+  details: string[];
+}

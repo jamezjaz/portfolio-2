@@ -1,6 +1,6 @@
 // reset, mixins, and variables files
 @import 'basic/reset';
-// @import 'mixins/mixins';
+@import 'mixins/mixins';
 @import 'variables/variables';
 
 // layouts
@@ -8,3 +8,4 @@
 
 // pages
 @import 'homePage/homePage';
+@import 'about/about';
