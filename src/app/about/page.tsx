@@ -12,6 +12,7 @@ import {
 } from '@/utils/firebase';
 import { AboutPageData } from '@/utils/types';
 import Box from '@mui/material/Box';
+import { jsLogo } from '@/utils/constants';
 
 const AboutPage: React.FC = () => {
   const [aboutData, setAboutData] = useState<AboutPageData | null>(null);
@@ -45,10 +46,18 @@ const AboutPage: React.FC = () => {
         bgcolor='#f0f2f5'
         position='relative'
       >
-        <p className='loader'>Loading...</p>
+        <div className='loader'>
+          <Image
+            src={jsLogo.logoUrl}
+            alt={jsLogo.name}
+            width={50}
+            height={50}
+            className='tech_icon'
+          />
+        </div>
       </Box>
     );
-  }
+  };
 
   return (
     <div className='about_page'>

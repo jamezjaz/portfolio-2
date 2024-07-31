@@ -6,6 +6,10 @@
 // layouts
 @import 'footer/footer';
 
+// global components
+@import 'muiLoader/muiLoader';
+
 // pages
 @import 'homePage/homePage';
 @import 'about/about';
+@import 'projects/projects';

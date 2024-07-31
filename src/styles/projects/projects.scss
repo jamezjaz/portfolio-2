@@ -1,0 +1,22 @@
+.projects_page {
+  padding: 60px 20px;
+
+  .project_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .tech_stack {
+    margin-top: 10px;
+  }
+
+  .project_links {
+    margin-top: 15px;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+}
