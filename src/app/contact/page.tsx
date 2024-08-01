@@ -21,8 +21,8 @@ import {
   Phone,
   Description
 } from '@mui/icons-material';
-import { db } from '@/utils/firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import emailjs from 'emailjs-com';
+import Notification from '@/components/notification/Notification';
 
 const ContactPage: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -36,6 +36,10 @@ const ContactPage: React.FC = () => {
     email: false,
     message: false
   });
+  const [notification, setNotification] = useState<{
+    message: string,
+    type: 'success' | 'error' 
+  } | null>(null);
 
   const handleOpen = () => {
     setOpen(true);
@@ -45,18 +49,22 @@ const ContactPage: React.FC = () => {
     setOpen(false);
   };
 
+  // contact form handlechange function
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
     setFormErrors({ ...formErrors, [id]: value === '' });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // contact form `Send Message` function
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, email, message } = formData;
 
-    console.log({ name, email, message });
+    const name = formData.name;
+    const email = formData.email;
+    const message = formData.message;
 
+    // form validations
     if (!name || !email || !message) {
       setFormErrors({
         name: !name,
@@ -64,30 +72,59 @@ const ContactPage: React.FC = () => {
         message: !message
       });
       return;
-    }
+    };
 
-    try {
-      await addDoc(collection(db, 'messages'), {
-        name,
-        email,
-        message,
-        date: new Date()
+    // the email params and values
+    const emailData = {
+      from_name: name,
+      to_name: 'James C. Odufu',
+      message: message,
+      reply_to: email,
+    };
+
+    const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const userID = process.env.NEXT_PUBLIC_EMAILJS_USER_ID;
+
+    emailjs.send(
+      serviceID || '', // service ID
+      templateID || '', // template ID
+      emailData,
+      userID || '' // EmailJS user ID
+    ).then((response) => {
+      console.log('SUCCESS!', { response });
+
+      // custom Notification component
+      setNotification({
+        message: 'Message sent successfully!',
+        type: 'success'
       });
-      setFormData({ name: '', email: '', message: '' });
-      alert('Message sent successfully!');
-    } catch (error) {
-      console.error('Error sending message:', error);
-      alert('Failed to send message. Please try again later.');
-    }
+
+      // clears form fields on successful email sent
+      setFormData({
+        name: '',
+        email: '',
+        message: '',
+      });
+    }).catch((error) => {
+      console.error('FAILED...', error);
+
+      setNotification({
+        message: 'Failed to send message. Please try again later.',
+        type: 'error'
+      });
+    });
   };
 
+  // opens resume for perusal
   const handleViewResume = () => {
-    window.open('/James_Odufu.pdf', '_blank');
+    window.open('/james_odufu.pdf', '_blank');
   };
 
+  // downloads resume on user's PC
   const handleDownloadResume = () => {
     const link = document.createElement('a');
-    link.href = '/James_Odufu.pdf';
+    link.href = '/james_odufu.pdf';
     link.download = 'James_Odufu.pdf';
     document.body.appendChild(link);
     link.click();
@@ -99,6 +136,14 @@ const ContactPage: React.FC = () => {
       maxWidth='md'
       className='contact_page'
     >
+      {/* invokes the custom Notification component if notification state object is not null */}
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
       <Typography
         variant='h3'
         component='h1'
@@ -200,6 +245,8 @@ const ContactPage: React.FC = () => {
             <IconButton
               href='mailto:jamezjaz@gmail.com'
               color='primary'
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Email />
             </IconButton>
@@ -208,6 +255,8 @@ const ContactPage: React.FC = () => {
             <IconButton
               href='https://www.linkedin.com/in/jamesgozieodufu/'
               color='primary'
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <LinkedIn />
             </IconButton>
@@ -216,6 +265,8 @@ const ContactPage: React.FC = () => {
             <IconButton
               href='https://github.com/jamezjaz'
               color='primary'
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <GitHub />
             </IconButton>
@@ -224,6 +275,8 @@ const ContactPage: React.FC = () => {
             <IconButton
               href='tel:+2348064497094'
               color='primary'
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <Phone />
             </IconButton>
@@ -238,19 +291,31 @@ const ContactPage: React.FC = () => {
         >
           View or Download Resume
         </Button>
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+        >
           <DialogTitle>Resume Options</DialogTitle>
           <DialogContent>
             <Typography>Would you like to view my resume or download it?</Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleViewResume} color='primary'>
+            <Button
+              onClick={handleViewResume}
+              color='primary'
+            >
               View Resume
             </Button>
-            <Button onClick={handleDownloadResume} color='primary'>
+            <Button
+              onClick={handleDownloadResume}
+              color='primary'
+            >
               Download Resume
             </Button>
-            <Button onClick={handleClose} color='secondary'>
+            <Button
+              onClick={handleClose}
+              color='secondary'
+            >
               Cancel
             </Button>
           </DialogActions>
