@@ -7,6 +7,6 @@ export const navItems = [
   { href: '/', text: 'Home' },
   { href: '/about', text: 'About' },
   { href: '/projects', text: 'Projects' },
-  { href: '/blog', text: 'Blog' },
+  { href: '/tech-articles', text: 'Tech Articles' },
   { href: '/contact', text: 'Contact' },
 ];

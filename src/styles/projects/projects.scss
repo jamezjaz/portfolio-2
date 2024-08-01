@@ -20,3 +20,12 @@
     }
   }
 }
+
+// media query for mobile devices
+@media (max-width: 768px) {
+  .projects_page {
+    .page_title {
+      font-size: 2rem;
+    }
+  }
+}

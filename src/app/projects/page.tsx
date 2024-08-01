@@ -69,6 +69,7 @@ const ProjectsPage: React.FC = () => {
         component='h1'
         align='center'
         gutterBottom
+        className='page_title'
       >
         My Projects
       </Typography>

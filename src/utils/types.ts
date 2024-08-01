@@ -1,3 +1,5 @@
+import { Timestamp } from '@/utils/firebase';
+
 export interface TechStacks {
   name: string;
   logoUrl: string;
@@ -15,13 +17,13 @@ export interface AboutPageData {
   bio: string;
   bioImage: string;
   details: string[];
-}
+};
 
 export interface NavItemProps {
   href: string;
   text: string;
   onClick?: () => void;
-}
+};
 
 export interface Project {
   title: string;
@@ -31,4 +33,12 @@ export interface Project {
   github?: string;
   demo?: string;
   position: number;
-}
+};
+
+export interface TechArticlesProps {
+  title: string;
+  description: string;
+  image: string;
+  date: Timestamp;
+  link: string;
+};

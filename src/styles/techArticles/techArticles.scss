@@ -1,0 +1,34 @@
+.tech_articles_page {
+  padding: 60px 20px;
+
+  .article_card {
+    height: 500px;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .article_date {
+      margin: 10px 0;
+    }
+
+    .read_more_btn {
+      @include flexRow;
+      @include justifyContent(center);
+    }
+  }
+}
+
+ // media query for mobile devices
+ @media (max-width: 768px) {
+  .tech_articles_page {
+    .page_title {
+      font-size: 2rem;
+    }
+
+    .article_title {
+      font-size: 1.3rem;
+    }
+  }
+ }
