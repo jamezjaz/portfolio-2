@@ -1,7 +1,20 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Container, Grid, Card, CardContent, CardMedia, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Box } from '@mui/material';
+import {
+  Container,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Box,
+} from '@mui/material';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 import { Project } from '@/utils/types';
@@ -11,11 +24,11 @@ import { jsLogo } from '@/utils/constants';
 const ProjectsPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [openModal, setOpenModal] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        // Query to fetch documents from the 'projects' collection, ordered by 'position' field
         const projectsQuery = query(collection(db, 'projects'), orderBy('position', 'asc'));
         const querySnapshot = await getDocs(projectsQuery);
         const projectsData: Project[] = querySnapshot.docs.map((doc) => doc.data() as Project);
@@ -62,7 +75,9 @@ const ProjectsPage: React.FC = () => {
   return (
     <Container
       maxWidth='lg'
-      className='projects_page'
+      className={`projects_page ${isHovered ? 'grid_layout' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <Typography
         variant='h3'
@@ -73,16 +88,10 @@ const ProjectsPage: React.FC = () => {
       >
         My Projects
       </Typography>
-      <Grid
-        container
-        spacing={4}
-      >
+      <div className={isHovered ? 'grid_projects_container' : 'projects_container'}>
         {projects?.map((project, index) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
+          <div
+            className={isHovered ? 'grid_project_card_wrapper' : 'project_card_wrapper'}
             key={index}
           >
             <Card className='project_card'>
@@ -152,9 +161,9 @@ const ProjectsPage: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
-          </Grid>
+          </div>
         ))}
-      </Grid>
+      </div>
       {/* private repository modal */}
       <Dialog
         open={openModal}
