@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'
 import {
   AppBar,
   Toolbar,
@@ -13,14 +14,27 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { navItems } from '@/utils/constants';
 import { NavItemProps } from '@/utils/types';
 
-const NavItem: React.FC<NavItemProps> = ({ href, text, onClick }) => (
-  <ListItem component={Link} href={href} onClick={onClick}>
+const NavItem: React.FC<NavItemProps & { isActive: boolean }> = ({
+  href,
+  text,
+  onClick,
+  isActive
+}) => (
+  <ListItem
+    component={Link}
+    href={href}
+    onClick={onClick}
+    style={{
+      fontWeight: isActive ? 'bold' : 'normal',
+      border: isActive ? '1px solid #f0f0f0' : 'none',
+    }}
+  >
     <ListItemText primary={text} />
   </ListItem>
 );
@@ -29,6 +43,7 @@ const NavBar: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const pathname = usePathname();
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -48,7 +63,13 @@ const NavBar: React.FC = () => {
             <Drawer anchor='right' open={drawerOpen} onClose={toggleDrawer}>
               <List>
                 {navItems.map((item, index) => (
-                  <NavItem key={index} href={item.href} text={item.text} onClick={toggleDrawer} />
+                  <NavItem
+                    key={index}
+                    href={item.href}
+                    text={item.text}
+                    onClick={toggleDrawer}
+                    isActive={pathname === item.href}
+                  />
                 ))}
               </List>
             </Drawer>
@@ -56,7 +77,16 @@ const NavBar: React.FC = () => {
         ) : (
           <div>
             {navItems.map((item, index) => (
-              <Button key={index} color='inherit' component={Link} href={item.href}>
+              <Button
+                key={index}
+                color='inherit'
+                component={Link}
+                href={item.href}
+                style={{
+                  fontWeight: pathname === item.href ? 'bold' : 'normal',
+                  border: pathname === item.href ? '1px solid #f0f0f0' : 'none',
+                }}
+              >
                 {item.text}
               </Button>
             ))}
