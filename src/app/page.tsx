@@ -69,17 +69,34 @@ const HomePage: React.FC = () => {
         <h1>{homepageData.title}</h1>
         <p>{homepageData.welcomeMessage}</p>
       </header>
-      <div className='hero'>
+      <div className='hero_image_container'>
         {homepageData.heroImage && (
-          <Image
-            src={homepageData.heroImage}
-            alt='Hero'
-            width={400}
-            height={300}
-            quality={100}
-            priority={true}
-            className='hero_image'
-          />
+          <div className='hero'>
+            <Image
+              src={homepageData.heroImage}
+              alt='Hero'
+              width={400}
+              height={300}
+              quality={100}
+              priority={true}
+              className='hero_image'
+            />
+            <div className='image_credit'>
+              <p>
+                Image by
+                {' '}
+                <a
+                  href='https://unsplash.com/@growtika'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Growtika
+                </a>
+                {' '}
+                on Unsplash
+              </p>
+            </div>
+          </div>
         )}
       </div>
       <section className='introduction'>

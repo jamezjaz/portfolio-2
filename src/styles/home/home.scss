@@ -22,15 +22,35 @@
     }
   }
 
-  .hero {
+  .hero_image_container {
     @include flexRow;
     @include justifyContent(center);
     @include alignItems(center);
     margin: 30px 0;
 
-    .hero_image {
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    .hero {
+      position: relative;
+    
+      .hero_image {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+    
+      .image_credit {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: $whiteColor;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 7px;
+    
+        a {
+          color: $whiteColor;
+          text-decoration: underline;
+        }
+      }
     }
   }
 
