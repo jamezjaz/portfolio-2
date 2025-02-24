@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## About
+
+A dynamic and interactive web application built using NextJS, showcasing my skills and expertise in building fast, scalable, and responsive user interfaces. This project demonstrates my ability to create a seamless user experience, leveraging the power of NextJS and its features.
 
 ## Getting Started
 
@@ -13,6 +15,9 @@ pnpm dev
 # or
 bun dev
 ```
+
+## Live Demo
+This portfolio is deployed [here](https://jazdev.netlify.app/) on Netlify.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
