@@ -42,3 +42,14 @@ export interface TechArticlesProps {
   date: Timestamp;
   link: string;
 };
+
+export interface HandleClickAnalyticsParams {
+  buttonName: string;
+  screenName: string;
+};
+
+export interface HandleFormSubmitAnalyticsParams {
+  formName: string;
+  pagePath: string;
+  success: boolean;
+};

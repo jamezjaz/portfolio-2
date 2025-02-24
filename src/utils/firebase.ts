@@ -14,7 +14,8 @@ import {
   DocumentData
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage'; // Import Firebase Storage
+import { getStorage } from 'firebase/storage';
+import { getAnalytics, Analytics, isSupported } from 'firebase/analytics';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -34,10 +35,19 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig); // No need to check if firebase has already been initialized v9 or above
 
+// Initialize Firebase Analytics if supported
+let analytics: Analytics | undefined; // Explicitly type as Analytics or undefined
+isSupported().then((supported) => {
+  if (supported) {
+    analytics = getAnalytics(app);
+  }
+});
+
 // Export Firestore and Auth
 export const db = getFirestore(app);
 export const auth = getAuth(app);
-export const storage = getStorage(app); // Initialize Firebase Storage
+export const storage = getStorage(app);
+export { analytics };
 
 // Export Firestore functions
 export {
