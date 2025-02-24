@@ -1,0 +1,18 @@
+// reset, mixins, and variables files
+@import 'basic/reset';
+@import 'mixins/mixins';
+@import 'variables/variables';
+
+// layouts
+@import 'footer/footer';
+
+// global components
+@import 'muiLoader/muiLoader';
+@import 'notification/notification';
+
+// pages
+@import 'home/home';
+@import 'about/about';
+@import 'projects/projects';
+@import 'techArticles/techArticles';
+@import 'contact/contact';

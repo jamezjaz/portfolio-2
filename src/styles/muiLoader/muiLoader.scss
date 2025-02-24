@@ -1,0 +1,11 @@
+.loader {
+  @include flexRow;
+  @include justifyContent(center);
+  @include alignItems(center);
+  height: 100vh;
+  background-color: $loaderBgColor;
+
+  .tech_icon {
+    animation: fade-in-out 1s infinite;
+  }
+}

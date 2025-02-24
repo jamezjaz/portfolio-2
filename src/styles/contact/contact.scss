@@ -1,0 +1,32 @@
+.contact_page {
+  padding: 60px 20px;
+
+  .contact_form {
+    margin-top: 40px;
+  }
+
+  .submit_button {
+    margin-top: 20px;
+  }
+
+  .contact_info {
+    margin-top: 40px;
+
+    .MuiTypography-h5 {
+      margin-bottom: 20px;
+    }
+
+    .MuiIconButton-root {
+      margin: 0 10px;
+      font-size: 30px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .contact_page {
+    .page_title {
+      font-size: 2rem;
+    }
+  }
+}

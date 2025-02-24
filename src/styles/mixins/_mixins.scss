@@ -1,0 +1,26 @@
+// mixin for row flex direction
+@mixin flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+// mixin for column flex direction
+@mixin flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+// mixin for justifyContent
+@mixin justifyContent($value) {
+  justify-content: $value;
+}
+
+// mixin for alignItems
+@mixin alignItems($value) {
+  align-items: $value;
+}
+
+// mixin for textAlign
+@mixin textAlign($value) {
+  text-align: $value;
+}
