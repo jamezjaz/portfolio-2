@@ -38,7 +38,7 @@ const ContactPage: React.FC = () => {
   });
   const [notification, setNotification] = useState<{
     message: string,
-    type: 'success' | 'error' 
+    type: 'success' | 'error'
   } | null>(null);
 
   const handleOpen = () => {
@@ -158,7 +158,7 @@ const ContactPage: React.FC = () => {
         align='center'
         gutterBottom
       >
-        I’d love to hear from you! Whether you have a question about a project, 
+        I’d love to hear from you! Whether you have a question about a project,
         want to collaborate, or just want to say hi, feel free to drop me a message.
       </Typography>
       <Box
@@ -243,7 +243,7 @@ const ContactPage: React.FC = () => {
         >
           <Grid item>
             <IconButton
-              href='mailto:jamezjaz@gmail.com'
+              href='mailto:james.c.odufu@gmail.com'
               color='primary'
               target="_blank"
               rel="noopener noreferrer"
@@ -273,7 +273,7 @@ const ContactPage: React.FC = () => {
           </Grid>
           <Grid item>
             <IconButton
-              href='tel:+2348064497094'
+              href='tel:+234 806 449 7094'
               color='primary'
               target="_blank"
               rel="noopener noreferrer"
