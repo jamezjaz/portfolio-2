@@ -2,7 +2,7 @@
   @include flexRow;
   @include justifyContent(center);
   @include alignItems(center);
-  height: 100vh;
+  height: fit-content;
   background-color: $loaderBgColor;
 
   .tech_icon {
