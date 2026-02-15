@@ -73,6 +73,30 @@
     transform: translateY(-8px) rotateX(calc((var(--mouse-y) - 0.5) * -10deg)) rotateY(calc((var(--mouse-x) - 0.5) * 10deg));
     box-shadow: 0 40px 80px rgba(0, 0, 0, 0.08);
   }
+
+  .bio_row {
+    @include flexRow;
+    @include alignItems(center);
+    @include justifyContent(space-between);
+    gap: 18px;
+
+    .avatar {
+      border-radius: 50%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      transition: transform .3s ease;
+      flex-shrink: 0;
+    }
+
+    .avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .bio {
+      font-size: 16px;
+      line-height: 1.4;
+      text-align: left;
+    }
+  }
 }
 
 // about / highlights
@@ -80,6 +104,7 @@
   list-style: none;
   padding: 0;
   margin-top: 24px;
+  font-size: 14px;
   text-align: left;
 
   li {
