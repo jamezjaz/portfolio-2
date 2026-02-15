@@ -1,44 +1,71 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { collection, db, DocumentData, getDocs, QueryDocumentSnapshot } from '../utils/firebase';
-import { HomePageData, TechStacks } from '@/utils/types';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
+
+import {
+  collection,
+  db,
+  DocumentData,
+  getDocs,
+  QueryDocumentSnapshot,
+} from '../utils/firebase';
+
+import { HomePageData, TechStacks, AboutPageData } from '@/utils/types';
 import { jsLogo } from '@/utils/constants';
 
 const HomePage: React.FC = () => {
   const [homepageData, setHomepageData] = useState<HomePageData | null>(null);
+  const [aboutData, setAboutData] = useState<AboutPageData | null>(null);
   const [techStacks, setTechStacks] = useState<TechStacks[]>([]);
   const [currentLogoIndex, setCurrentLogoIndex] = useState(0);
 
+  // fetch homepage and about data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'homepage'));
-        const data: HomePageData[] = querySnapshot.docs.map(
-          (doc: QueryDocumentSnapshot<DocumentData>) => doc.data() as HomePageData
+        const homepageSnapshot = await getDocs(collection(db, 'homepage'));
+        const aboutSnapshot = await getDocs(collection(db, 'about'));
+
+        const homepage = homepageSnapshot.docs.map(
+          (doc: QueryDocumentSnapshot<DocumentData>) =>
+            doc.data() as HomePageData
         );
 
-        if (data.length > 0) {
-          setHomepageData(data[0]);
-          setTechStacks(data[0].techStacks);
-        }
+        const about = aboutSnapshot.docs.map(
+          (doc: QueryDocumentSnapshot<DocumentData>) =>
+            doc.data() as AboutPageData
+        );
+
+        if (homepage.length > 0) {
+          setHomepageData(homepage[0]);
+          setTechStacks(homepage[0].techStacks || []);
+        };
+
+        if (about.length > 0) {
+          setAboutData(about[0]);
+        };
       } catch (error) {
-        console.error('Error fetching homepage data:', error);
-      }
+        console.error('Error fetching homepage/about data:', error);
+      };
     };
 
     fetchData();
   }, []);
 
+  // rotate tech stack logos every 2.5 seconds
   useEffect(() => {
+    if (!techStacks.length) return;
+
     const interval = setInterval(() => {
-      setCurrentLogoIndex((prevIndex) => (prevIndex + 1) % techStacks.length);
-    }, 3000);
+      setCurrentLogoIndex(
+        (prevIndex) => (prevIndex + 1) % techStacks.length
+      );
+    }, 2500);
 
     return () => clearInterval(interval);
-  }, [techStacks.length]);
+  }, [techStacks]);
 
   if (!homepageData) {
     return (
@@ -47,8 +74,7 @@ const HomePage: React.FC = () => {
         justifyContent='center'
         alignItems='center'
         height='100vh'
-        bgcolor='#f0f2f5'
-        position='relative'
+        bgcolor='#fafafa'
       >
         <div className='loader'>
           <Image
@@ -56,7 +82,6 @@ const HomePage: React.FC = () => {
             alt={jsLogo.name}
             width={50}
             height={50}
-            className='tech_icon'
           />
         </div>
       </Box>
@@ -64,56 +89,80 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <div className='homepage'>
-      <header className='header'>
+    <main className='homepage'>
+      {/* ambient side glow */}
+      <div className='ambient ambient_left' />
+      <div className='ambient ambient_right' />
+
+      {/* welcome card */}
+      <section className='card hero_card fade_up'>
         <h1>{homepageData.title}</h1>
-        <p>{homepageData.welcomeMessage}</p>
-      </header>
-      <div className='hero_image_container'>
-        {homepageData.heroImage && (
-          <div className='hero'>
-            <Image
-              src={homepageData.heroImage}
-              alt='Hero'
-              width={400}
-              height={300}
-              quality={100}
-              priority={true}
-              className='hero_image'
-            />
-            <div className='image_credit'>
-              <p>
-                Image by
-                {' '}
-                <a
-                  href='https://unsplash.com/@growtika'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  Growtika
-                </a>
-                {' '}
-                on Unsplash
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
+        <p className='tagline'>{homepageData.welcomeMessage}</p>
+      </section>
+
+      {/* hero image */}
+      {homepageData.heroImage && (
+        <section className='hero_image_container fade_up delay_1'>
+          <Image
+            src={homepageData.heroImage}
+            alt='Hero Image'
+            width={700}
+            height={350}
+            className='hero_image'
+            priority
+          />
+        </section>
+      )}
+
+      {/* introduction intentionally removed to avoid redundancy */}
+      {/*
       <section className='introduction'>
         <p>{homepageData.introduction}</p>
       </section>
-      <div className='tech_stack'>
-        {techStacks.length > 0 && (
+      */}
+
+      {/* bio card */}
+      {aboutData && (
+        <section className='card about_card fade_up delay_2'>
+
+          <div className='bio_row'>
+            {aboutData.bioImage && (
+              <Image
+                src={aboutData.bioImage}
+                alt='Profile photo'
+                width={150}
+                height={150}
+                className='avatar'
+              />
+            )}
+
+            <p className='bio'>{aboutData.bio}</p>
+          </div>
+
+          {aboutData.details?.length > 0 && (
+            <ul className='highlights'>
+              {aboutData.details.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          )}
+
+        </section>
+      )}
+
+      {/* tech stack */}
+      {techStacks.length > 0 && (
+        <section className='tech_stack fade_up delay_3'>
           <Image
             src={techStacks[currentLogoIndex]?.logoUrl}
             alt={techStacks[currentLogoIndex]?.name}
-            width={100}
-            height={100}
-            className='tech_logo'
+            width={90}
+            height={90}
           />
-        )}
-      </div>
-    </div>
+        </section>
+      )}
+
+    </main>
   );
 };
 

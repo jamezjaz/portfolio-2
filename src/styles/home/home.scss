@@ -1,92 +1,253 @@
+// global layout
 .homepage {
-  max-width: 1200px;
+  position: relative;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 100px 20px 60px; 
+  padding: 120px 20px 80px;
+  text-align: center;
+}
 
-  .header {
-    background-color: $homeHeaderColor;
-    color: $whiteColor;
+// card system (welcome + bio)
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 40px 36px;
+  margin: 30px auto;
+  max-width: 780px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.08);
+}
+
+// hero card
+.hero_card h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: $textColor;
+}
+
+.tagline {
+  margin-top: 14px;
+  font-size: 1.25rem;
+  color: #666;
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+// hero image
+.hero_image_container {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.hero_image {
+  border-radius: 16px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.10);
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.hero_image:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.14);
+}
+
+// about / bio card
+.about_card {
+  text-align: left;
+}
+
+.bio_row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.avatar {
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  transition: transform .3s ease;
+  flex-shrink: 0;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
+}
+
+.bio {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #333;
+  margin: 0;
+}
+
+// highlights list
+.highlights {
+  list-style: none;
+  padding: 0;
+  margin-top: 24px;
+}
+
+.highlights li {
+  margin: 8px 0;
+  font-size: 1.05rem;
+  color: #555;
+  position: relative;
+  padding-left: 18px;
+}
+
+.highlights li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #999;
+}
+
+// tech stack rotator
+.tech_stack {
+  margin-top: 70px;
+}
+
+.tech_stack img {
+  opacity: 0;
+  animation: fadeInOut 2.6s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+// fade-up entrance animations
+.fade_up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp .8s ease forwards;
+}
+
+.delay_1 {
+  animation-delay: .15s;
+}
+
+.delay_2 {
+  animation-delay: .3s;
+}
+
+.delay_3 {
+  animation-delay: .45s;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ambient side glow (premium effect)
+.ambient {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  pointer-events: none;
+  z-index: -1;
+  z-index: 99;
+  filter: blur(90px);
+  opacity: .55;
+}
+
+.ambient_left {
+  left: -120px;
+  background: radial-gradient(circle, #6c63ff, transparent 70%);
+  animation: floatGlow 12s ease-in-out infinite;
+}
+
+.ambient_right {
+  right: -120px;
+  background: radial-gradient(circle, #00c2ff, transparent 70%);
+  animation: floatGlow 14s ease-in-out infinite;
+}
+
+@keyframes floatGlow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(60px);
+  }
+}
+
+// loader
+.loader {
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: .4;
+    transform: scale(.95);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: .4;
+    transform: scale(.95);
+  }
+}
+
+// responsive
+@media (max-width: 768px) {
+
+  .homepage {
+    padding: 100px 16px 60px;
+  }
+
+  .hero_card h1 {
+    font-size: 2.2rem;
+  }
+
+  .tagline {
+    font-size: 1.05rem;
+  }
+
+  .bio_row {
+    flex-direction: column;
     text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-    h1 {
-      margin: 0;
-      font-size: 2.5em;
-    }
-
-    p {
-      margin: 0;
-      font-size: 1.2em;
-    }
   }
 
-  .hero_image_container {
-    @include flexRow;
-    @include justifyContent(center);
-    @include alignItems(center);
-    margin: 30px 0;
-
-    .hero {
-      position: relative;
-    
-      .hero_image {
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-    
-      .image_credit {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: $whiteColor;
-        padding: 5px;
-        border-radius: 5px;
-        font-size: 7px;
-    
-        a {
-          color: $whiteColor;
-          text-decoration: underline;
-        }
-      }
-    }
+  .bio {
+    font-size: 1.05rem;
   }
 
-  .introduction {
-    background-color: $whiteColor;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 20px 0;
-
-    p {
-      margin: 0;
-      font-size: 1.1em;
-      line-height: 1.6;
-    }
-  }
-
-  .tech_stack {
-    @include flexRow;
-    @include justifyContent(center);
-    @include alignItems(center);
-    margin: 20px 0;
-
-    .tech_logo {
-      animation: fade 3s infinite;
-    }
-  }
-
-  @keyframes fade {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-
-  @keyframes fade-in-out {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
+  .hero_image {
+    width: 100%;
+    height: auto;
   }
 }
