@@ -12,140 +12,177 @@
   padding: 120px 20px 80px;
   text-align: center;
   perspective: 1200px; // increased for better 3D depth
-}
 
-// global animation state
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1s var(--bezier), transform 1s var(--bezier);
-  will-change: transform, opacity;
+  // reveal animation
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s var(--bezier), transform 1s var(--bezier);
+    will-change: transform, opacity;
 
-  &.is_visible {
+    &.is_visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .slide_left {
+    opacity: 0;
+    transform: translateX(-90px);
+    transition:
+      transform 1.5s var(--bezier),
+      opacity 1s ease-out;
+  }
+
+  .slide_right {
+    opacity: 0;
+    transform: translateX(90px);
+    transition:
+      transform 1.5s var(--bezier),
+      opacity 1s ease-out;
+  }
+
+  .is_visible.slide_left,
+  .is_visible.slide_right {
     opacity: 1;
+    transform: translateX(0);
+  }
+
+  // clip reveal title animation
+  .reveal_clip {
+    overflow: hidden;
+
+    h1 {
+      transform: translateY(100%);
+      transition: transform 1.2s var(--bezier);
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin: 0;
+    }
+  }
+
+  .is_visible .reveal_clip h1 {
     transform: translateY(0);
   }
-}
 
-// senior "clip reveal" for H1
-.reveal_clip {
-  overflow: hidden;
-
-  h1 {
-    transform: translateY(100%);
-    transition: transform 1.2s var(--bezier);
-    font-size: 3rem;
-    font-weight: 700;
-    letter-spacing: -0.4px;
-    margin: 0;
-  }
-}
-
-.is_visible .reveal_clip h1 {
-  transform: translateY(0);
-}
-
-// card system
-.card {
-  background: #ffffff;
-  border-radius: 24px; // smoother corners
-  padding: 40px 36px;
-  margin: 30px auto;
-  max-width: 780px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
-  position: relative;
-  z-index: 2;
-  transition: transform 0.6s var(--bezier), box-shadow 0.6s var(--bezier);
-  overflow: hidden;
-
-  // magnetic glow effect
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(600px circle at calc(var(--mouse-x) * 100%) calc(var(--mouse-y) * 100%),
-        rgba(0, 0, 0, 0.03),
-        transparent 40%);
-    pointer-events: none;
-  }
-
-  &:hover {
-    transform: translateY(-8px) rotateX(calc((var(--mouse-y) - 0.5) * -10deg)) rotateY(calc((var(--mouse-x) - 0.5) * 10deg));
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.08);
-  }
-
-  .bio_row {
-    @include flexRow;
-    @include alignItems(center);
-    @include justifyContent(space-between);
-    gap: 18px;
-
-    .avatar {
-      border-radius: 50%;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-      transition: transform .3s ease;
-      flex-shrink: 0;
-    }
-
-    .avatar:hover {
-      transform: scale(1.05);
-    }
-
-    .bio {
-      font-size: 16px;
-      line-height: 1.4;
-      text-align: left;
-    }
-  }
-}
-
-// about / highlights
-.highlights {
-  list-style: none;
-  padding: 0;
-  margin-top: 24px;
-  font-size: 14px;
-  text-align: left;
-
-  li {
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.6s var(--bezier);
-    margin: 12px 0;
-    padding-left: 20px;
+  // shared card styling
+  .card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px 36px;
+    margin: 30px auto;
+    max-width: 780px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
     position: relative;
+    z-index: 2;
+    transition: transform 0.6s var(--bezier), box-shadow 0.6s var(--bezier);
+    overflow: hidden;
 
+    // magnetic glow effect
     &::before {
-      content: "→";
+      content: '';
       position: absolute;
-      left: 0;
-      color: #0070f3; // or your brand color
-      font-weight: bold;
+      inset: 0;
+      background: radial-gradient(600px circle at calc(var(--mouse-x) * 100%) calc(var(--mouse-y) * 100%),
+          rgba(0, 0, 0, 0.03),
+          transparent 40%);
+      pointer-events: none;
+    }
+
+    &:hover {
+      transform: translateY(-8px) rotateX(calc((var(--mouse-y) - 0.5) * -10deg)) rotateY(calc((var(--mouse-x) - 0.5) * 10deg));
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.08);
+    }
+
+    // bio layout
+    .bio_row {
+      @include flexRow;
+      @include alignItems(center);
+      @include justifyContent(space-between);
+      gap: 18px;
+
+      .avatar {
+        border-radius: 50%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        transition: transform .3s ease;
+        flex-shrink: 0;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+
+      .bio {
+        font-size: 16px;
+        line-height: 1.4;
+        text-align: left;
+        max-width: 520px;
+      }
+    }
+
+    // highlights list
+    .highlights {
+      list-style: none;
+      padding: 0;
+      margin-top: 24px;
+      font-size: 14px;
+      text-align: left;
+
+      li {
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.6s var(--bezier);
+        margin: 12px 0;
+        padding-left: 20px;
+        position: relative;
+
+        &::before {
+          content: "→";
+          position: absolute;
+          left: 0;
+          color: #0070f3;
+          font-weight: bold;
+        }
+      }
+    }
+
+    &.is_visible .highlights li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  // hero image
+  .hero_image_container {
+    width: 100%;
+    padding: 0 4px;
+
+    .hero_image {
+      width: 100%;
+      height: auto;
+      max-width: 700px;
+      border-radius: 20px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+      transition: transform 0.8s var(--bezier);
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+
+  // tech stack
+  .tech_stack {
+    margin-top: 20px;
+
+    .stack_logo {
+      animation: logoEntrance 0.6s var(--bezier) forwards;
     }
   }
 }
 
-.is_visible .highlights li {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-// hero image styling
-.hero_image {
-  border-radius: 20px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
-  transition: transform 0.8s var(--bezier);
-
-  &:hover {
-    transform: scale(1.02);
-  }
-}
-
-// tech stack logo
-.stack_logo {
-  animation: logoEntrance 0.6s var(--bezier) forwards;
-}
-
+// logo animation
 @keyframes logoEntrance {
   from {
     opacity: 0;
@@ -158,18 +195,34 @@
   }
 }
 
-// responsive overrides
+// responsiveness
 @media (max-width: 768px) {
   .homepage {
     padding: 80px 16px;
-  }
 
-  .hero_card h1 {
-    font-size: 2.2rem;
-  }
+    .hero_card h1 {
+      font-size: 2.2rem;
+    }
 
-  .bio_row {
-    flex-direction: column;
-    text-align: center;
+    .card {
+      padding: 28px 22px;
+      text-align: center;
+
+      .bio_row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        .avatar {
+          margin-bottom: 10px;
+        }
+
+        .bio {
+          text-align: center;
+          font-size: 15px;
+          line-height: 1.6;
+        }
+      }
+    }
   }
 }

@@ -129,7 +129,7 @@ const HomePage: React.FC = () => {
       {/* hero image */}
       {homepageData.heroImage && (
         <section
-          className='hero_image_container reveal'
+          className='hero_image_container reveal slide_right'
           style={{ transitionDelay: '200ms' }}
         >
           <Image
@@ -152,7 +152,7 @@ const HomePage: React.FC = () => {
 
       {/* bio card */}
       {aboutData && (
-        <section className='card about_card reveal'>
+        <section className='card about_card reveal slide_left'>
           <div className='bio_row'>
             {aboutData.bioImage && (
               <Image
