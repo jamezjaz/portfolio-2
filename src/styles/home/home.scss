@@ -26,6 +26,28 @@
     }
   }
 
+  .slide_left {
+    opacity: 0;
+    transform: translateX(-90px);
+    transition:
+      transform 1.5s var(--bezier),
+      opacity 1s ease-out;
+  }
+
+  .slide_right {
+    opacity: 0;
+    transform: translateX(90px);
+    transition:
+      transform 1.5s var(--bezier),
+      opacity 1s ease-out;
+  }
+
+  .is_visible.slide_left,
+  .is_visible.slide_right {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
   // clip reveal title animation
   .reveal_clip {
     overflow: hidden;
